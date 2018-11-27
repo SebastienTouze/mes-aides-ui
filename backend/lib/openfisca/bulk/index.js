@@ -1,14 +1,14 @@
 var es = require('event-stream');
 
 // Loads
-require('../../../backend');
+require('../../../../backend');
 require('expect');
 var mongoose = require('mongoose');
 
 // Setup mongoose
 var Situation = mongoose.model('Situation');
 
-var lib = require('.');
+var lib = require('..');
 
 var counter = 0;
 var errors = 0;
