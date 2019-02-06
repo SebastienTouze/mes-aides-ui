@@ -24,7 +24,8 @@ function duplicateRessourcesForAnneeFiscaleDeReference(individu, dateDeValeur) {
                 return sum + (result[periodObject] || 0);
             }, 0);
             if (sumOverLast12Months) {
-                periods.anneeFiscaleReference12Months.forEach(function(month) {
+                var periods = [].concat(periods.anneeFiscaleReference12Months, periods.anneeFiscaleReferencePrecedente12Months);
+                periods.forEach(function(month) {
                     result[month] = sumOverLast12Months / 12;
                 });
             }

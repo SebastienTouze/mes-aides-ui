@@ -42,6 +42,10 @@ exports.getPeriods = function (dateDeValeur) {
         anneeFiscaleReference12Months: _.map(_.range(12), function(monthIndex) {
             var anneeFiscaleReference = moment(dateDeValeur.clone().subtract(2, 'years').year(), 'YYYY');
             return anneeFiscaleReference.clone().add(monthIndex, 'months').format('YYYY-MM');
+        }),
+        anneeFiscaleReferencePrecedente12Months: _.map(_.range(12), function(monthIndex) {
+            var anneeFiscaleReference = moment(dateDeValeur.clone().subtract(3, 'years').year(), 'YYYY');
+            return anneeFiscaleReference.clone().add(monthIndex, 'months').format('YYYY-MM');
         })
     };
 };
