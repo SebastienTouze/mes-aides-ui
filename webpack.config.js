@@ -70,6 +70,10 @@ var config = {
                         minimize: true,
                     }
                 }],
+            },
+            {
+                test: /\.modernizrrc$/,
+                use: ['modernizr-loader', 'json-loader'],
             }
         ]
     },
@@ -123,6 +127,11 @@ var config = {
                 default: false
             }
         },
+    },
+    resolve: {
+        alias: {
+            modernizr$: path.resolve(__dirname, '.modernizrrc')
+        }
     }
 };
 
