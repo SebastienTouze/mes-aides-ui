@@ -76,6 +76,32 @@ angular.module('ddsApp').controller('SuggestionCtrl', function($scope, $http, dr
         delete expectedResult.shouldCompute;
     };
 
+    function sendSuggestionFile(suggestion) {
+        var destination = suggestion.destination;
+        var baseUrl = 'https://ludwig.incubateur.net/api/repository/github';
+        var url = [baseUrl, destination.owner, destination.repository, 'suggest'].join('/');
+
+        return $http.post(url, {
+            title: suggestion.name,
+            body: suggestion.description,
+            content: suggestion.content
+        });
+    }
+
+    function generateSuggestionFile(situationId, props) {
+        return $http.post('api/situations/' + situationId + '/openfisca-test', props)
+            .then(function(response) {
+                return response.data;
+            })
+            .then(function(content) {
+                return {
+                    name: props.name,
+                    destination: props.destination,
+                    content: content,
+                };
+            });
+    }
+
     function createSuggestionFile(form) {
         delete $scope.error;
         if ($scope.submitting || (! form.$valid)) {
@@ -87,28 +113,21 @@ angular.module('ddsApp').controller('SuggestionCtrl', function($scope, $http, dr
             return;
         }
 
-        var aidsWithAnExpectedValue = $scope.test.expectedResults.map(function(expectedValue) { return expectedValue.ref; });
-        var metadata = SuggestionService.determineExtensionAndRepository(aidsWithAnExpectedValue);
-        if (metadata.error) {
-            $scope.error = metadata.error;
+        var benefitsWithAnExpectedValue = $scope.test.expectedResults.map(function(expectedValue) { return expectedValue.ref; });
+        var destination = SuggestionService.determineExtensionAndRepository(benefitsWithAnExpectedValue);
+        if (destination.error) {
+            $scope.error = destination.error;
             return;
         }
 
-        var testMetadata = SuggestionService.generateTestMetadata($scope.test, metadata.extension);
+        var testMetadata = SuggestionService.generateTestMetadata($scope.test, destination.extension);
 
         $scope.submitting = true;
-        $http.post('api/situations/' + $scope.situation._id + '/openfisca-test', testMetadata)
-            .then(function(result) {
-                return $http.post('https://ludwig.incubateur.net/api/repositories/github/betagouv/' + (metadata.repository) + '/suggest', {
-                    title: testMetadata.name,
-                    body: testMetadata.description,
-                    content: result.data
-                });
-            })
-            .then(function(response) {
-                $scope.result = response.data;
-            })
-            .catch(function(error) {
+        generateSuggestionFile($scope.situation._id, testMetadata)
+            .then(function(suggestion) { return sendSuggestionFile(suggestion); })
+            .then(function(response) { return response.data; })
+            .then(function(result) { $scope.result = result; })
+            .csendSuggestionFileatch(function(error) {
                 $scope.error = error.message;
             })
             .finally(function() {

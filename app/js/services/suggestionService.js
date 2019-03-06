@@ -11,6 +11,7 @@ angular.module('ddsApp').factory('SuggestionService', function() {
 
             if (! extensions.length) {
                 return {
+                    owner: 'openfisca',
                     repository: 'openfisca-france'
                 };
             }
@@ -24,12 +25,13 @@ angular.module('ddsApp').factory('SuggestionService', function() {
 
             var dest = 'openfisca-' + extensions[0];
             return {
+                owner: 'betagouv',
                 extension: dest,
                 repository: dest,
             };
         },
         generateTestMetadata: function(test, extension) {
-            var outputVariables = test.expectedResults.reduce(function(results, expectedValue) {
+            var expectedOutput = test.expectedResults.reduce(function(results, expectedValue) {
                 results[expectedValue.ref.id] = expectedValue.expectedValue;
                 return results;
             }, {});
@@ -38,7 +40,7 @@ angular.module('ddsApp').factory('SuggestionService', function() {
                 extension: extension,
                 name: test.name,
                 description: test.description,
-                output_variables: outputVariables
+                output: expectedOutput
             };
         }
     };

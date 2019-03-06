@@ -81,22 +81,13 @@ var DETAILS_DEFAULT_ATTRIBUTES = {
     absolute_error_margin: 10,
 };
 
-// Attributes are sorted as they should appear in the YAML test file
-var DETAILS_ATTRIBUTES = [
-    'name',
-    'description',
-    'extension',
-    'absolute_error_margin',
-    'relative_error_margin',
-    'output_variables',
-];
 
 exports.openfiscaTest = function(req, res) {
     var details = _.assign({}, DETAILS_DEFAULT_ATTRIBUTES,
-        _.pick(req.body, DETAILS_ATTRIBUTES)
+        _.pick(req.body, openfiscaTest.TEST_ATTRIBUTES)
     );
-    if (! details.name || ! details.description || ! details.output_variables) {
-        return res.status(403).send({ error: 'You must provide a name, description and output_variables.' });
+    if (! details.name || ! details.description || ! details.output) {
+        return res.status(403).send({ error: 'You must provide a name, description and output.' });
     }
 
     var situation = req.situation.toObject ? req.situation.toObject() : req.situation;

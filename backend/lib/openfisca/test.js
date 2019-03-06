@@ -75,12 +75,14 @@ function prepareTestSituationForSpecificExtension(situation, extension) {
     return situation;
 }
 
+// Attributes are sorted as they should appear in the YAML test file
 var TEST_ATTRIBUTES = [
     'name',
     'description',
-    'output',
+    'extension',
     'absolute_error_margin',
     'relative_error_margin',
+    'output',
 ];
 
 exports.generateTest = function generateYAMLTest(details, situation) {
@@ -105,3 +107,4 @@ exports.generateYAMLTest = function generateYAMLTest(details, situation) {
 };
 
 exports.EXTENSION_VARIABLES = EXTENSION_VARIABLES;
+exports.TEST_ATTRIBUTES = TEST_ATTRIBUTES;

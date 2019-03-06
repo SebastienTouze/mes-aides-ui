@@ -25,6 +25,7 @@ describe('Service: Suggestion', function() {
 
             it('targets openfisca-france', function() {
                 expect(result.repository).toBe('openfisca-france');
+                expect(result.owner).toBe('openfisca');
             });
         });
 
@@ -41,6 +42,7 @@ describe('Service: Suggestion', function() {
 
             it('targets the extension', function() {
                 expect(result.extension).toBeTruthy();
+                expect(result.owner).toBe('betagouv');
                 expect(result.repository).toBe('openfisca-provider');
             });
         });
