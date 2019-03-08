@@ -88,7 +88,7 @@ angular.module('ddsApp').controller('SuggestionCtrl', function($scope, $http, dr
         });
     }
 
-    function generateSuggestionFile(situationId, props) {
+    function generateSuggestionFile(situationId, props, destination) {
         return $http.post('api/situations/' + situationId + '/openfisca-test', props)
             .then(function(response) {
                 return response.data;
@@ -96,7 +96,7 @@ angular.module('ddsApp').controller('SuggestionCtrl', function($scope, $http, dr
             .then(function(content) {
                 return {
                     name: props.name,
-                    destination: props.destination,
+                    destination: destination,
                     content: content,
                 };
             });
@@ -123,11 +123,11 @@ angular.module('ddsApp').controller('SuggestionCtrl', function($scope, $http, dr
         var testMetadata = SuggestionService.generateTestMetadata($scope.test, destination.extension);
 
         $scope.submitting = true;
-        generateSuggestionFile($scope.situation._id, testMetadata)
+        generateSuggestionFile($scope.situation._id, testMetadata, destination)
             .then(function(suggestion) { return sendSuggestionFile(suggestion); })
             .then(function(response) { return response.data; })
             .then(function(result) { $scope.result = result; })
-            .csendSuggestionFileatch(function(error) {
+            .sendSuggestionFileatch(function(error) {
                 $scope.error = error.message;
             })
             .finally(function() {
