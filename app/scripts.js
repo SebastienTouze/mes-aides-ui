@@ -96,6 +96,7 @@ require('./js/controllers/resultat.js');
 require('./js/controllers/stats.js');
 require('./js/controllers/validation.js');
 
+require('./js/directives/benefitCta.js');
 require('./js/directives/breadcrumb.js');
 require('./js/directives/captureContinuationRessource.js');
 require('./js/directives/captureMontantRessource.js');
