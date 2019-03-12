@@ -66,11 +66,20 @@
                             'Résider <abbr title="Métropole, Guadeloupe, Guyane, Martinique ou Réunion">en France</abbr> depuis plus de 3 mois.'
                         ],
                         'link': 'https://www.service-public.fr/particuliers/vosdroits/F10027',
-                        'teleservice': 'https://assure.ameli.fr/PortailAS/appmanager/PortailAS/assure?_somtc=true&_pageID=P1_DEMANDE_CMUC',
-                        'forms': {
-                            'general': 'https://www.ameli.fr/sites/default/files/formulaires/170/s3711_homol_mai_2018_remp_non_sec_version_ameli_et_fiche_daccrf.pdf',
-                            'msa': 'https://www.ameli.fr/sites/default/files/formulaires/170/s3711_homol_mai_2018_remp_non_sec_version_ameli_et_fiche_daccrf.pdf',
-                            'rsi': 'https://www.ameli.fr/sites/default/files/formulaires/170/s3711_homol_mai_2018_remp_non_sec_version_ameli_et_fiche_daccrf.pdf'
+                        ctas: {
+                            general: {
+                                teleservice: 'https://assure.ameli.fr/PortailAS/appmanager/PortailAS/assure?_somtc=true&_pageID=P1_DEMANDE_CMUC',
+                                form: 'https://www.ameli.fr/sites/default/files/formulaires/170/s3711.pdf',
+                                instructions: 'https://www.ameli.fr/assure/droits-demarches/difficultes-acces-droits-soins/complementaire-sante/cmu-complementaire#text_11912',
+                            },
+                            msa: {
+                                teleservice: 'https://monespaceprive.msa.fr/lfy/web/msa/espace-prive?modalId=2',
+                                form: 'https://contenucommun.msa.fr/lfy/documents/11566/48477/Demande+commune+ACS-CMU-C.pdf',
+                                instructions: 'https://www.msa.fr/lfy/sante/aide-complementaire?_56_INSTANCE_Lcg8tj8V6eid_read_more=6',
+                            },
+                            rsi: {
+                                form: 'https://www.ameli.fr/sites/default/files/formulaires/170/s3711_homol_mai_2018_remp_non_sec_version_ameli_et_fiche_daccrf.pdf',
+                            }
                         },
                         'type': 'bool', // default type is float
                     },
