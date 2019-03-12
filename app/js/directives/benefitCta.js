@@ -41,7 +41,7 @@ var regimes = {
     msa: {
         label: 'la mutualité sociale agricole (MSA)'
     }
-}
+};
 
 angular.module('ddsApp').component('benefitCtaModalComponent', {
     templateUrl: '/partials/benefit-cta-modal.html',
@@ -55,14 +55,13 @@ angular.module('ddsApp').component('benefitCtaModalComponent', {
 
         $scope.getDetails = function(key) {
             return regimes[key];
-        }
+        };
 
         $scope.buildBenefit = function(type, value) {
             var res = {};
             res[type] = value;
-            console.log(type, value, res);
             return res;
-        }
+        };
 
         $ctrl.$onInit = function () {
             var droit = $ctrl.resolve.droit;
@@ -70,11 +69,11 @@ angular.module('ddsApp').component('benefitCtaModalComponent', {
         };
 
         $ctrl.ok = function () {
-          $ctrl.close({$value: 'ok'});
+            $ctrl.close({$value: 'ok'});
         };
 
         $ctrl.cancel = function () {
-          $ctrl.dismiss({$value: 'cancel'});
+            $ctrl.dismiss({$value: 'cancel'});
         };
     }
 });//*/
