@@ -22,17 +22,18 @@ angular.module('ddsApp').controller('HomepageCtrl', function($scope, $state, $se
     });
 
     var droit = droitsDescription.prestationsNationales.assurance_maladie.prestations.cmu_c;
-    var modalInstance = $uibModal.open({
+    $uibModal.open({
         animation: true,
         component: 'benefitCtaModalComponent',
         size: 'lg',
         resolve: {
             droit: function () {
-              return droit;
+                return droit;
             }
         }
     });
 
+    /*
     modalInstance.result.then(function (result) {
         console.log(result);
     }, function () {
