@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <h1 class="modal-title" id="modal-title">{{ droit.label }}</h1>
+</div>
+<div class="modal-body" id="modal-body">
+
+    <style type="text/css">
+      .benefit-cta-list {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+
+      .cta-footer {
+        margin-top: 2em;
+      }
+    </style>
+    <div ng-repeat="(name, cta) in droit.ctas">
+        <h2>Pour {{ getDetails(name).label }}, vous pouvez&nbsp;:</h2>
+
+        <div class="benefit-cta-list">
+            <droit-cta ng-repeat="(type, link) in cta" droit="{ [type]: link }"></droit-cta>
+        </div>
+    </div>
+
+    <p class="cta-footer">Les informations affichées ne vous concernent pas&nbsp;? <a analytics-on="click" analytics-category="Contact" analytics-event="CTA" href="mailto:feedback@mes-aides.gouv.fr?subject=[{{ situation._id }}]%20Suggestion">Dites-le-nous, nous améliorons le simulateur en continu</a>.</p>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default" type="button" ng-click="$ctrl.ok()">Fermer</button>
+</div>
