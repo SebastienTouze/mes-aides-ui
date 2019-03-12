@@ -77,9 +77,6 @@
                                 form: 'https://contenucommun.msa.fr/lfy/documents/11566/48477/Demande+commune+ACS-CMU-C.pdf',
                                 instructions: 'https://www.msa.fr/lfy/sante/aide-complementaire?_56_INSTANCE_Lcg8tj8V6eid_read_more=6',
                             },
-                            rsi: {
-                                form: 'https://www.ameli.fr/sites/default/files/formulaires/170/s3711_homol_mai_2018_remp_non_sec_version_ameli_et_fiche_daccrf.pdf',
-                            }
                         },
                         'type': 'bool', // default type is float
                     },
