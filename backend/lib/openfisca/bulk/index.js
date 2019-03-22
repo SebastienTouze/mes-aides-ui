@@ -4,6 +4,9 @@ var es = require('event-stream');
 require('../../../../backend');
 require('expect');
 var mongoose = require('mongoose');
+var moment = require('moment');
+Promise = require('bluebird');
+var fs = Promise.promisifyAll(require('fs'));
 
 // Setup mongoose
 var Situation = mongoose.model('Situation');
@@ -23,7 +26,7 @@ entityGroups = {
   menages: ['personne_de_reference', 'conjoint', 'enfants']
 }
 
-function reset() {
+function init() {
   result = Object.keys(entityGroups).reduce((accum, entityName) => {
     accum[entityName] = {};
     return accum;
@@ -65,16 +68,29 @@ function append(acummulator, situation) {
   return acummulator
 }
 
-result = reset()
-function test() {
-  Situation.find().sort({ dateDeValeur: -1 }).skip(100).limit(limit).cursor()
+result = init()
+function generateDailyDataset(date) {
+  var start = moment(date);
+  var end =  start.clone().add(1, 'days');
+  Situation.find({
+    //_id: '5c91789b88adca02f217ba82',
+    dateDeValeur: { $gte: start.toDate(), $lte: end.toDate() }
+  })
+    //.limit(2000)
+    .cursor()
     .pipe(es.map(function (situation, done) {
-      append(result, prefix(situation._id.valueOf(), lib.buildOpenFiscaRequest(situation)))
+      var request = lib.buildOpenFiscaRequest(situation);
+      append(result, prefix(situation._id.valueOf(), request))
       done()
     }))
     .on('end', function() {
-      console.log(JSON.stringify(result))
-      process.exit();
+      var timestamp = new Date();
+      var filename = date + timestamp.toISOString().replace(/:/g, '-') + '.json';
+      console.log('Writting to ' + filename + '.');
+      return fs.writeFileAsync(filename, JSON.stringify(result))
+        .then(function() {
+          process.exit();
+        });
     })
     .on('error', function(err) {
       console.trace(err);
@@ -83,4 +99,4 @@ function test() {
     .resume();
 }
 
-test();
+generateDailyDataset('2019-03-20');
