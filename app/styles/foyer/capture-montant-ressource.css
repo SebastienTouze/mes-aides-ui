@@ -6,6 +6,10 @@
     flex-direction: column;
 }
 
+.ressource-input .month + .month {
+    margin-left: 15px;
+}
+
 .ressource-input .month label {
     min-height: 3em;  /* sum is always on two lines (+ 1 line of margin), ensure all labels are aligned */
     justify-content: flex-end;

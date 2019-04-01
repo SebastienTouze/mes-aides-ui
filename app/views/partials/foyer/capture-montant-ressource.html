@@ -58,76 +58,76 @@
     </div>
 
     <div ng-if="locals.detailed">
-      <div class="row">
-        <div class="months"
-          ng-class="{ 'has-error': form.submitted && form[ressourceType.id + '-year'].$min }"
+      <div class="months"
+        ng-class="{ 'has-error': form.submitted && form[ressourceType.id + '-year'].$min }"
+        >
+        <div class="month"
+          ng-class="{ 'has-error': form.submitted && form[ressourceType.id + '-year'].$invalid }"
+          style="flex: 4;"
           >
-          <div class="col-sm-3 month"
-            ng-repeat="month in threePreviousMonths"
-            ng-class="{ 'has-error': form.submitted && form[ressourceType.id + '-month_' + $index].$invalid }"
-            >
-            <label for="{{ ressourceType.id }}-month_{{ $index }}">
-              {{ month.label|uppercaseFirst }}
-            </label>
-            <div class="input-group">
-              <input
-                type="number"
-                class="form-control text-right"
-                id="{{ ressourceType.id }}-month_{{ $index }}"
-                name="{{ ressourceType.id }}-month_{{ $index }}"
-                required
-                min="0"
-                select-on-focus
-                zero-to-empty
-                ng-model="ressource[month.id]"
-                aria-describedby="help-{{ ressourceType.id }}-month_{{ $index }}"
-                uib-tooltip="{{ ressourceType.hint || '' }}"
-                tooltip-trigger="'focus'"
-                tooltip-placement="top"
-                tooltip-enable="!! ressourceType.hint"
-                tooltip-append-to-body="true"
-                >
-              <span class="input-group-addon">€</span>
-            </div>
-            <ul class="help-block" id="help-{{ ressourceType.id }}-month_{{ $index }}" ng-if="form.submitted && ! isNumber(ressource[month.id])">
-              <li>Montant invalide</li>
-            </ul>
+          <label for="{{ ressourceType.id }}-year">
+            Total de {{ debutAnneeGlissante }} à {{ threePreviousMonths[threePreviousMonths.length-1].label }}&nbsp;inclus
+          </label>
+          <div class="input-group">
+            <input
+              type="number"
+              class="form-control text-right"
+              id="{{ ressourceType.id }}-year"
+              name="{{ ressourceType.id }}-year"
+              required
+              min="{{ monthsSum }}"
+              select-on-focus
+              zero-to-empty
+              ng-model="locals.annualValue"
+              aria-describedby="help-{{ ressourceType.id }}-year"
+              uib-tooltip="{{ ressourceType.hint || '' }}"
+              tooltip-trigger="'focus'"
+              tooltip-placement="top"
+              tooltip-enable="!! ressourceType.hint"
+              tooltip-append-to-body="true"
+              >
+            <span class="input-group-addon">€</span>
           </div>
-          <div class="col-sm-3 month"
-            ng-class="{ 'has-error': form.submitted && form[ressourceType.id + '-year'].$invalid }"
-            >
-            <label for="{{ ressourceType.id }}-year">
-              Total de {{ debutAnneeGlissante }} à {{ threePreviousMonths[threePreviousMonths.length-1].label }}&nbsp;inclus
-            </label>
-            <div class="input-group">
-              <input
-                type="number"
-                class="form-control text-right"
-                id="{{ ressourceType.id }}-year"
-                name="{{ ressourceType.id }}-year"
-                required
-                min="{{ monthsSum }}"
-                select-on-focus
-                zero-to-empty
-                ng-model="locals.annualValue"
-                aria-describedby="help-{{ ressourceType.id }}-year"
-                uib-tooltip="{{ ressourceType.hint || '' }}"
-                tooltip-trigger="'focus'"
-                tooltip-placement="top"
-                tooltip-enable="!! ressourceType.hint"
-                tooltip-append-to-body="true"
-                >
-              <span class="input-group-addon">€</span>
-            </div>
-            <ul class="help-block" id="help-{{ ressourceType.id }}-year" ng-if="form.submitted && form[ressourceType.id + '-year'].$invalid">
-              <li ng-show="form[ressourceType.id + '-year'].$error.min">
-                Somme incohérente
-              </li>
-              <li ng-show="! isNumber(annualValue.store) && ! form[ressourceType.id + '-year'].$error.min">
-                Montant invalide
-              </li>
-            </ul>
+          <ul class="help-block" id="help-{{ ressourceType.id }}-year" ng-if="form.submitted && form[ressourceType.id + '-year'].$invalid">
+            <li ng-show="form[ressourceType.id + '-year'].$error.min">
+              Somme incohérente
+            </li>
+            <li ng-show="! isNumber(annualValue.store) && ! form[ressourceType.id + '-year'].$error.min">
+              Montant invalide
+            </li>
+          </ul>
+        </div>
+        <div class="month"
+          ng-repeat="month in threePreviousMonths"
+          ng-class="{ 'has-error': form.submitted && form[ressourceType.id + '-month_' + $index].$invalid }"
+          style="flex: 2;"
+          >
+          <label for="{{ ressourceType.id }}-month_{{ $index }}">
+            {{ month.label|uppercaseFirst }}
+          </label>
+          <div class="input-group">
+            <input
+              type="number"
+              class="form-control text-right"
+              id="{{ ressourceType.id }}-month_{{ $index }}"
+              name="{{ ressourceType.id }}-month_{{ $index }}"
+              required
+              min="0"
+              select-on-focus
+              zero-to-empty
+              ng-model="ressource[month.id]"
+              aria-describedby="help-{{ ressourceType.id }}-month_{{ $index }}"
+              uib-tooltip="{{ ressourceType.hint || '' }}"
+              tooltip-trigger="'focus'"
+              tooltip-placement="top"
+              tooltip-enable="!! ressourceType.hint"
+              tooltip-append-to-body="true"
+              >
+            <span class="input-group-addon">€</span>
           </div>
+          <ul class="help-block" id="help-{{ ressourceType.id }}-month_{{ $index }}" ng-if="form.submitted && ! isNumber(ressource[month.id])">
+            <li>Montant invalide</li>
+          </ul>
         </div>
       </div>
       <div id="help-{{ ressourceType.id }}-year"
