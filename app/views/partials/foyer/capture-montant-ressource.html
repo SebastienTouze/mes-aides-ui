@@ -44,12 +44,10 @@
 
       <div class="text-center">&horbar; ou &horbar;</div>
 
-      <div class="row ressource-input-type-label"
-        ng-click="locals.detailed = ! locals.detailed"
-      >
+      <div class="row ressource-input-type-label">
         <a
           class="col-sm-12 text-center"
-          href=""
+          ng-click="openModal(ressourceType)"
           >
           <span class="fa fa-chevron-down"></span>
           Sinon détaillez les montants sur les 12 derniers mois

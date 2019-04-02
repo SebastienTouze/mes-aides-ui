@@ -277,3 +277,22 @@ legend {
   border-bottom: none;
   font-size: inherit;
 }
+
+.modal {
+  text-align: center;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}

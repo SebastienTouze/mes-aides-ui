@@ -31,6 +31,7 @@ angular.module('ddsApp').directive('captureMontantRessource', function(MonthServ
             ressourceType: '=',
             dateDeValeur: '=',
             form: '=',
+            openModal: '=',
         },
         link: function(scope) {
             var momentDebutAnnee = moment(scope.dateDeValeur).subtract(1, 'years');
@@ -52,7 +53,7 @@ angular.module('ddsApp').directive('captureMontantRessource', function(MonthServ
             if (! scope.ressourceType.revenuExceptionnel) {
                 isoMonths = isoMonths.concat(currentMonth);
             }
-            
+
             var lastMonthValue = scope.ressource[lastMonth.id] || 0;
 
             function determineAnnualValue() {

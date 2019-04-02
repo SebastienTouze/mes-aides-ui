@@ -86,6 +86,7 @@ require('./js/controllers/foyer/ressources/ressources.js');
 require('./js/controllers/foyer/ressources/individu.js');
 require('./js/controllers/foyer/ressources/types.js');
 require('./js/controllers/foyer/ressources/montants.js');
+require('./js/controllers/foyer/ressources/montantsModal.js');
 require('./js/controllers/foyer/ressources/enfants.js');
 require('./js/controllers/foyer/pensionsAlimentaires.js');
 require('./js/controllers/foyer/yearMoins2.js');

@@ -1,0 +1,129 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">{{ ressourceType.label }}</h3>
+</div>
+<div class="modal-body" id="modal-body">
+
+    <div class="row" ng-if="step === 1">
+      <label class="col-sm-5 control-label" for="">
+        Combien avez-vous perçu en <strong>{{ lastMonth.label }}</strong> ?
+      </label>
+      <div class="col-sm-4">
+        <div class="input-group">
+          <input
+            type="number"
+            min="0"
+            class="form-control text-right"
+            id="last-month"
+            name="last-month"
+            ng-model="lastMonthValue"
+            select-on-focus
+            zero-to-empty
+            uib-tooltip="{{ ressourceType.hint || '' }}"
+            tooltip-trigger="'focus'"
+            tooltip-placement="top"
+            tooltip-enable="!! ressourceType.hint"
+            tooltip-append-to-body="true"
+            >
+          <div class="input-group-addon">€</div>
+        </div>
+        <span class="help-block" ng-if="form.submitted && form[ ressourceType.id + '-monthly-value'].$invalid">
+          Montant invalide
+        </span>
+      </div>
+    </div>
+
+    <div class="row" ng-if="step === 2">
+      <label class="col-sm-5 control-label" for="">
+        Combien avez-vous perçu en {{ threePreviousMonths[1].label }} ?
+      </label>
+      <div class="col-sm-4">
+        <div class="input-group">
+          <input
+            type="number"
+            min="0"
+            class="form-control text-right"
+            id="month-minus-2"
+            name="monthly-value"
+            ng-model="lastMonthValue"
+            select-on-focus
+            zero-to-empty
+            uib-tooltip="{{ ressourceType.hint || '' }}"
+            tooltip-trigger="'focus'"
+            tooltip-placement="top"
+            tooltip-enable="!! ressourceType.hint"
+            tooltip-append-to-body="true"
+            auto-focus
+            >
+          <div class="input-group-addon">€</div>
+        </div>
+        <span class="help-block" ng-if="form.submitted && form[ ressourceType.id + '-monthly-value'].$invalid">
+          Montant invalide
+        </span>
+      </div>
+    </div>
+
+    <div class="row" ng-if="step === 2">
+      <label class="col-sm-5 control-label" for="">
+        Combien avez-vous perçu en {{ threePreviousMonths[0].label }} ?
+      </label>
+      <div class="col-sm-4">
+        <div class="input-group">
+          <input
+            type="number"
+            min="0"
+            class="form-control text-right"
+            id="monthly-value"
+            name="monthly-value"
+            ng-model="lastMonthValue"
+            select-on-focus
+            zero-to-empty
+            uib-tooltip="{{ ressourceType.hint || '' }}"
+            tooltip-trigger="'focus'"
+            tooltip-placement="top"
+            tooltip-enable="!! ressourceType.hint"
+            tooltip-append-to-body="true"
+            >
+          <div class="input-group-addon">€</div>
+        </div>
+        <span class="help-block" ng-if="form.submitted && form[ ressourceType.id + '-monthly-value'].$invalid">
+          Montant invalide
+        </span>
+      </div>
+    </div>
+
+    <div class="row" ng-if="step === 3">
+      <label class="col-sm-5 control-label" for="">
+        Total de {{ debutAnneeGlissante }} à {{ threePreviousMonths[threePreviousMonths.length - 1].label }} inclus
+      </label>
+      <div class="col-sm-4">
+        <div class="input-group">
+          <input
+            type="number"
+            min="0"
+            class="form-control text-right"
+            id="monthly-value"
+            name="monthly-value"
+            ng-model="lastMonthValue"
+            select-on-focus
+            zero-to-empty
+            uib-tooltip="{{ ressourceType.hint || '' }}"
+            tooltip-trigger="'focus'"
+            tooltip-placement="top"
+            tooltip-enable="!! ressourceType.hint"
+            tooltip-append-to-body="true"
+            auto-focus
+            >
+          <div class="input-group-addon">€</div>
+        </div>
+        <span class="help-block" ng-if="form.submitted && form[ ressourceType.id + '-monthly-value'].$invalid">
+          Montant invalide
+        </span>
+      </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" ng-click="next()" ng-if="step < 3">Suivant</button>
+  <button class="btn btn-primary" type="button" ng-click="complete()" ng-if="step === 3">Terminer</button>
+  <button class="btn btn-warning" type="button" ng-click="cancel()">Annuler</button>
+</div>
