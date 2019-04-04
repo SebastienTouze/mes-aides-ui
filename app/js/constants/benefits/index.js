@@ -440,7 +440,7 @@
                         'private': true,
                     },
                 },
-                repository: 'bacASable'
+                repository: 'france-local'
             }
         }
     };
