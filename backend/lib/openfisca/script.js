@@ -4,8 +4,14 @@ Promise = require('bluebird');
 
 var mongoose = require('mongoose');
 var openfisca = Promise.promisifyAll(require('.'));
+var request = Promise.promisify(openfisca.sendToOpenfisca('calculate', (s) => s));
+
+
+var fs = Promise.promisifyAll(require('fs'));
 
 var common = require('./mapping/common');
+var { init, prefix, append } = require('./bulk');
+
 
 // Setup mongoose
 var Situation = mongoose.model('Situation');
@@ -17,25 +23,65 @@ const benefits = [
   'aide_logement'
 ];
 
+//const id = '5cdeaff798caa56428d468f3'; // SDS
+const id = '5ce5796705cba8696945b476'; // Locataire
+
+const variable = 'salaire_net';
+
+var values = [];
+var steps = 20 + 1;
+var max = 2000;
+for (var i=0; i<steps; i = i+1) {
+  values.push(i * max / (steps-1));
+}
+const fullTimePeriodLength = 25;
+const fullTimePeriod = 'month:2017-05:' + fullTimePeriodLength.toString();
+
 function extractResults({ source, response }) {
   const periods = common.getPeriods(source.dateDeValeur);
-  return benefits.reduce((a, v) => {
-    a[v] = response.familles._[v][periods.thisMonth];
+  const keys = Object.keys(response.familles);
+
+  return keys.reduce((a, k) => {
+    var b = benefits.reduce((a, v) => {
+      a[v] = response.familles[k][v][periods.thisMonth];
+      return a;
+    }, {});
+
+    a[k] = b;
     return a;
   }, {});
 }
 
 function main() {
-    Situation.findOne({ _id: '5cdeaff798caa56428d468f3' })
+    Situation.findOne({ _id: id })
     .then(s => {
+      const periods = common.getPeriods(s.dateDeValeur);
 
-      return Promise.resolve(require('./payload.json'))//openfisca.calculateAsync(s)
+      return values.reduce((a, v) => {
+        s.individus[0][variable] = {};
+        s.individus[0][variable][fullTimePeriod] = fullTimePeriodLength * v;
+        var ss = openfisca.buildOpenFiscaRequest(s);
+        var prefixed = prefix(v.toString() + '_', ss);
+        return append(a, prefixed);
+      }, init());
+    })
+    .then(s => {
+      //return Promise.resolve(require('./payload3.json'))//
+      return request(s)
       .then(payload => {
+        //  console.log(JSON.stringify(payload, null, 2))
         return {
           source: s,
           response: payload,
         }
       });
+    })
+    .then(s => {
+      var timestamp = new Date();
+      var filename = 'axe_' + id + '_' + timestamp.toISOString().replace(/:/g, '-') + '.json';
+
+      return fs.writeFileAsync(filename, JSON.stringify(s, null, 2))
+      .then(() => s)
     })
     .then(s => {
       const results = extractResults(s)

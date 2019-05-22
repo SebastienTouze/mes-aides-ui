@@ -91,4 +91,10 @@ function generateDailyDataset(date) {
         .resume();
 }
 
-generateDailyDataset('2019-03-20');
+module.exports = {
+    init,
+    prefix,
+    append
+};
+
+//generateDailyDataset('2019-03-20');
