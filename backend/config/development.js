@@ -2,6 +2,7 @@
 
 module.exports = {
     baseURL: 'http://localhost:9000',
+    openfiscaAxeURL: 'http://localhost:3000',
     openfiscaPublicURL: 'http://localhost:2000',
     openfiscaTracerURL: 'http://localhost:3000',
     teleserviceAccessTokens: {

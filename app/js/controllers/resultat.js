@@ -35,7 +35,14 @@ angular.module('ddsApp').controller('ResultatCtrl', function($analytics, $http, 
                     .fetchRepresentation($scope.situation._id, 'openfisca_tracer')
                     .then(function(data) {
                         $scope.openfiscaTracerURL = data.destination.url;
-                    }).catch(function() {});
+                    }).catch(function() {})
+                    .finally(function() {
+                        return SituationService
+                            .fetchRepresentation($scope.situation._id, 'openfisca_axe')
+                            .then(function(data) {
+                                $scope.openfiscaAxeURL = data.destination.url;
+                            }).catch(function() {});
+                    });
             })
             .catch(function(error) {
                 if (error.status === 403) {
