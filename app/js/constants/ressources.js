@@ -317,6 +317,12 @@
             label: 'Profession libérale, entrepreneur',
             category: 'rpns',
             isMontantAnnuel: true
+        },
+        {
+            id: 'garantie_jeunes',
+            label: 'Garantie Jeunes',
+            category: 'allocations',
+            prefix: 'la',
         }
     ];
 
