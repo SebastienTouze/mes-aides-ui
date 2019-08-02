@@ -31,7 +31,7 @@ if (process.env.PUPPETEER_ARGS) {
 
 module.exports = function(app) {
     var env = app.get('env');
-    var directory = 'dist';
+    var directory = path.join(__dirname, 'dist');
 
     if ('development' === env) {
 
@@ -51,8 +51,8 @@ module.exports = function(app) {
 
     }
 
-    var viewsDirectory = path.join(__dirname, directory, 'views');
-    app.use(favicon(path.join(__dirname, directory, 'img', 'favicon', 'favicon.ico')));
+    var viewsDirectory = path.join(directory, 'views');
+    app.use(favicon(path.join(directory, 'img', 'favicon', 'favicon.ico')));
 
     var CACHE = {
         ONE_YEAR: { maxAge: 365 * 24 * 60 * 60 * 1000 },  // assets that are cachebusted through the `rev` build step that changes file names

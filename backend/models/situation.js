@@ -111,6 +111,9 @@ SituationSchema.statics.cookiePrefix = 'situation_';
 SituationSchema.virtual('cookieName').get(function() {
     return `${SituationSchema.statics.cookiePrefix}${this._id}`;
 });
+SituationSchema.virtual('returnPath').get(function() {
+    return '/foyer/resultat?situationId=' + this._id;
+});
 
 SituationSchema.methods.isAccessible = function(keychain) {
     return ['demo', 'investigation', 'test'].includes(this.status) || (keychain && keychain[this.cookieName] === this.token);
@@ -141,6 +144,7 @@ var FollowupSchema = new mongoose.Schema({
         }
     },
     createdAt: { type: Date, default: Date.now },
+    sentAt: { type: Date },
     _id: { type: String },
 }, { minimize: false, id: false });
 
@@ -153,6 +157,9 @@ FollowupSchema.pre('save', function(next) {
         })
         .then(next)
         .catch(next);
+});
+FollowupSchema.virtual('returnPath').get(function() {
+    return '/api/followups/' + this._id;
 });
 
 mongoose.model('Situation', SituationSchema);
