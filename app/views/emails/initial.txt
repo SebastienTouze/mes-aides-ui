@@ -4,7 +4,7 @@ Vous avez récemment fait une simulation sur Mes-Aides.gouv.fr.
 
 D'après la situation que vous avez décrite, vous êtes a priori éligible aux aides suivantes :
 {{#droits}}
-- {{.}}
+- {{&.}}
 {{/droits}}
 
 Retrouvez les détails de votre simulation sur Mes-Aides.gouv.fr à partir du lien suivant : {{&returnURL}}

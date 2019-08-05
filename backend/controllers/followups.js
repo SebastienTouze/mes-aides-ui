@@ -8,9 +8,9 @@ var sender = mailjet.connect(config.mailjet.publicKey, config.mailjet.privateKey
 var situation = require('./situations');
 
 exports.followup = function(req, res, next, id) {
-    Followup.findById(id, function(err, followup) {
+    Followup.findById(id).populate('situation').exec(function(err, followup) {
         if (err) return next(err);
-        if (! followup || ! followup.situation) return res.redirect('/');
+        if (! followup || ! followup.situation || ! followup.situation._id) return res.redirect('/');
         req.followup = followup;
 
         situation.situation(req, res, next, followup.situation);
@@ -22,35 +22,60 @@ exports.resultRedirect = function(req, res) {
     res.redirect(req.situation.returnPath);
 };
 
+function display(b) {
+    if (b.labelFunction) {
+        return b.labelFunction(b);
+    }
+
+    if (b.type === 'bool') {
+        return b.label;
+    }
+
+    return `${b.label} pour un montant de ${b.montant} € / ${b.isMontantAnnuel ? 'an' : 'mois'}`;
+}
+exports.display = display;
+
 function sendEmail(followup, email) {
     email = email || followup.email;
     var textTemplate = fs.readFileSync('app/views/emails/initial.txt', 'utf8');
-    var data = {
-        subject: '[' + followup.situation + '] Récapitulatif de votre simulation sur Mes-Aides.gouv.fr',
-        droits: ['A', 'B', 'C'],
-        returnURL: `${config.baseURL}${followup.returnPath}`,
-    };
-    return mustache.render(textTemplate, data)
-        .then(text => {
-            return sender.post('send', { version: 'v3.1' })
-                .request({ Messages: [{
-                    From: { Name: 'Équipe Mes Aides', Email: 'contact@mes-aides.gouv.fr'},
-                    To: [{ Email: email}],
-                    Subject: data.subject,
-                    TextPart: text,
-                }]})
-                .then(() => {
-                    followup.sentAt = new Date();
-                    followup.email = undefined;
 
-                    return followup.save();
-                })
-                .catch(err => {
-                    console.error(err);
-                    followup.email = email;
-                    return followup.save();
-                });
+    var p = new Promise(function(resolve, reject) {
+        followup.situation.compute(function(error, benefits) {
+            if (error) {
+                return reject(error);
+            }
+            resolve(benefits);
         });
+    });
+
+    return p.then(function (benefits) {
+        var data = {
+            subject: '[' + followup.situation._id + '] Récapitulatif de votre simulation sur Mes-Aides.gouv.fr',
+            droits: benefits.droitsEligibles.map(display),
+            returnURL: `${config.baseURL}${followup.returnPath}`,
+        };
+        mustache.render(textTemplate, data)
+            .then(text => {
+                return sender.post('send', { version: 'v3.1' })
+                    .request({ Messages: [{
+                        From: { Name: 'Équipe Mes Aides', Email: 'contact@mes-aides.gouv.fr'},
+                        To: [{ Email: email}],
+                        Subject: data.subject,
+                        TextPart: text,
+                    }]})
+                    .then(() => {
+                        followup.sentAt = new Date();
+                        followup.email = undefined;
+
+                        return followup.save();
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        followup.email = email;
+                        return followup.save();
+                    });
+            });
+    });
 }
 exports.sendEmail = sendEmail;
 
@@ -60,7 +85,7 @@ exports.persistAndSendEmail = function(req, res) {
     }
 
     Followup.create({
-        situation: req.situation._id
+        situation: req.situation
     }).then(followup => {
         return sendEmail(followup, req.body.email)
             .then(() => res.send({ result: 'OK' }));
