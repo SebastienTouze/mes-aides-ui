@@ -1,8 +1,12 @@
 var mongoose = require('mongoose');
 var _ = require('lodash');
-var ressources = require('../../app/js/constants/ressources');
-var utils = require('../lib/utils');
 var validator = require('validator');
+var ressources = require('../../app/js/constants/ressources');
+var mesAides = require('../lib/mes-aides');
+var renderInitial = require('../lib/mes-aides/emails/initial').render;
+var openfisca = require('../lib/openfisca');
+var utils = require('../lib/utils');
+var computeAides = mesAides.computeAides;
 
 var familleDef = {
     parisien: Boolean,
@@ -111,9 +115,25 @@ SituationSchema.statics.cookiePrefix = 'situation_';
 SituationSchema.virtual('cookieName').get(function() {
     return `${SituationSchema.statics.cookiePrefix}${this._id}`;
 });
+SituationSchema.virtual('returnPath').get(function() {
+    return '/foyer/resultat?situationId=' + this._id;
+});
 
 SituationSchema.methods.isAccessible = function(keychain) {
     return ['demo', 'investigation', 'test'].includes(this.status) || (keychain && keychain[this.cookieName] === this.token);
+};
+SituationSchema.methods.compute = function() {
+    var that = this;
+    return new Promise(function(resolve, reject) {
+        openfisca.calculate(that, function(err, openfiscaResponse) {
+            if (err) {
+                return reject(err);
+            }
+
+            var aides = computeAides(that, openfiscaResponse, false);
+            resolve(aides);
+        });
+    });
 };
 
 SituationSchema.pre('save', function(next) {
@@ -141,9 +161,13 @@ var FollowupSchema = new mongoose.Schema({
         }
     },
     createdAt: { type: Date, default: Date.now },
+    sentAt: { type: Date },
     _id: { type: String },
 }, { minimize: false, id: false });
 
+FollowupSchema.methods.renderInitial = function() {
+    return renderInitial(this);
+};
 FollowupSchema.pre('save', function(next) {
     if (!this.isNew) next();
     var followup = this;
@@ -153,6 +177,9 @@ FollowupSchema.pre('save', function(next) {
         })
         .then(next)
         .catch(next);
+});
+FollowupSchema.virtual('returnPath').get(function() {
+    return '/api/followups/' + this._id;
 });
 
 mongoose.model('Situation', SituationSchema);

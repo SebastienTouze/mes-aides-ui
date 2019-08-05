@@ -2,10 +2,14 @@ var _ = require('lodash');
 var openfisca = require('../lib/openfisca');
 var openfiscaTest = require('../lib/openfisca/test');
 var Situation = require('mongoose').model('Situation');
-var Followup = require('mongoose').model('Followup');
 
-exports.situation = function(req, res, next, id) {
-    Situation.findById(id, function(err, situation) {
+exports.situation = function(req, res, next, situationId) {
+    if (situationId && situationId._id) {
+        req.situation = situationId;
+        return next();
+    }
+
+    Situation.findById(situationId, function(err, situation) {
         if (err) return next(err);
         if (! situation) return res.sendStatus(404);
 
@@ -103,20 +107,4 @@ exports.openfiscaTest = function(req, res) {
 
     var situation = req.situation.toObject ? req.situation.toObject() : req.situation;
     res.type('yaml').send(openfiscaTest.generateYAMLTest(details, situation));
-};
-
-exports.followup = function(req, res) {
-    if (! req.body.email || ! req.body.email.length) {
-        return res.status(400).send({ result: 'KO' });
-    }
-
-    Followup.create({
-        email: req.body.email,
-        situation: req.situation
-    }, function(err) {
-        if (err) {
-            return res.status(400).send({ result: 'KO' });
-        }
-        res.send({ result: 'OK' });
-    });
 };

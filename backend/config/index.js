@@ -2,9 +2,14 @@ var env = process.env.NODE_ENV || 'development';
 
 var all = {
     env: env,
+    baseURL: 'https://mes-aides.gouv.fr',
     openfiscaURL: process.env.OPENFISCA_URL || 'http://localhost:2000',
     openfiscaPublicURL: 'https://openfisca.mes-aides.gouv.fr',
     openfiscaTracerURL: 'https://betagouv.github.io/openfisca-tracer',
+    mailjet: {
+        publicKey: process.env.MAILJET_PUBLIC_KEY,
+        privateKey: process.env.MAILJET_PRIVATE_KEY,
+    },
     mongo: {
         uri: process.env.MONGODB_URL || 'mongodb://localhost/dds',
         options: {
