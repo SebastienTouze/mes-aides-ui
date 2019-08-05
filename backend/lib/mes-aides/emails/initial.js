@@ -2,7 +2,7 @@ var fs = require('fs');
 var mustache = require('consolidate').mustache;
 var config = require('../../../config');
 
-function basicBenefitDisplays(b) {
+function basicBenefitText(b) {
     if (b.labelFunction) {
         return b.labelFunction(b);
     }
@@ -19,7 +19,7 @@ function render(followup) {
         .then(function (benefits) {
             return {
                 followup: followup,
-                benefitTexts: benefits.droitsEligibles.map(basicBenefitDisplays),
+                benefitTexts: benefits.droitsEligibles.map(basicBenefitText),
                 returnURL: `${config.baseURL}${followup.returnPath}`,
             };
         }).then(function(data) {
