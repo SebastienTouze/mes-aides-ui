@@ -165,11 +165,6 @@ module.exports = function(env, argv) {
             filename: 'views/embed.html',
             inject: false,
         },
-        {
-            template: './app/views/emails/initial.txt',
-            filename: 'views/emails/initial.txt',
-            inject: false,
-        },
     ];
 
     var miniCssExtractPluginOptions = {
