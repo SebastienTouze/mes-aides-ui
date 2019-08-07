@@ -68,6 +68,19 @@ Erreur : {{ encodedError }}
   <div class="frame-resultats" ng-show="! ressourcesYearMoins2Captured">
     <h2 ng-show="(droits | isEmpty)">Juste une dernière étape…</h2>
     <ym2-ressources-call-to-action></ym2-ressources-call-to-action>
+    <div class="row additional-info-cta">
+      <div class="col-sm-8">
+        <p>
+          <i class="fa fa-warning text-warning" aria-hidden="true"></i>
+          
+        </p>
+      </div>
+      <div class="col-sm-4 print-hidden">
+        <a class="btn btn-success btn-block" ui-sref="foyer.ressourcesYearMoins2">Indiquez les aides dont vous bénéficiez déjà</a>
+      </div>
+    </div>
+  </div>
+
   </div>
 
   <offline-result situation="situation"></offline-result>
