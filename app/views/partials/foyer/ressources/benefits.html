@@ -1,0 +1,39 @@
+<div class="frame-foyer">
+  <h1>Les aides dont vous bénéficiez déjà</h1>
+  <form class="form-horizontal">
+
+    <div class="form-group"
+      ng-repeat="benefit in benefits"
+      >
+      <div class="col-sm-4 control-label">
+        <label for="tauxIncapacite" id="tauxIncapaciteQuestion">
+          {{benefit.label}} ???
+        </label>
+      </div>
+      <div class="button-row">
+        <label class="btn btn-default">
+          <input type="radio"
+            class="sr-only"
+            aria-describedby="tauxIncapaciteQuestion"
+            />
+            J'en bénéficie déjà
+        </label>
+        <label class="btn btn-default">
+          <input type="radio"
+            class="sr-only"
+            aria-describedby="tauxIncapaciteQuestion"
+            />
+            J'ai déjà fait une demande 
+        </label>
+        <label class="btn btn-default">
+          <input type="radio"
+            class="sr-only"
+            aria-describedby="tauxIncapaciteQuestion"
+            />
+            Je n'en bénéficie pas actuellement
+        </label>
+      </div>
+    </div>
+    <next-button></next-button>
+  </form>
+</div>

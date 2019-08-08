@@ -324,6 +324,11 @@ ddsApp.config(function($locationProvider, $stateProvider, $urlRouterProvider, $u
             templateUrl: '/partials/foyer/patrimoine.html',
             controller: 'FoyerPatrimoineCtrl'
         })
+        .state('foyer.benefits', {
+            templateUrl: '/partials/foyer/ressources/benefits.html',
+            controller: 'FoyerBenefitsCtrl',
+            url: '/aides'
+        })
         .state('redirection', {
             url: '/redirection?vers',
             templateUrl: '/partials/redirection.html',

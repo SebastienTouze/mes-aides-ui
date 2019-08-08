@@ -8,6 +8,12 @@ angular.module('ddsApp').service('ResultatService', function($http, $rootScope) 
     var _loading = false;
 
     function fetch(situation, showPrivate) {
+        return Promise.resolve({
+            droitsEligibles: [{id: 'ppa', montant: 12, label: 'PPA'}],
+            droitsNonEligibles: [],
+            droitsInjectes: [], // declared by the user
+
+        })
         return $http.get('api/situations/' + situation._id + '/openfisca-response')
             .then(function(OpenfiscaResponse) {
                 return OpenfiscaResponse.data;
