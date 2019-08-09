@@ -11,26 +11,17 @@
         </label>
       </div>
       <div class="button-row">
-        <label class="btn btn-default">
+        <label
+          ng-repeat="alternative in alternatives"
+          class="btn btn-default"
+          ng-class="{ 'active': benefit.status == alternative.value }"
+        >
           <input type="radio"
             class="sr-only"
-            aria-describedby="tauxIncapaciteQuestion"
+            ng-model="benefit.status"
+            ng-value="alternative.value"
             />
-            J'en bénéficie déjà
-        </label>
-        <label class="btn btn-default">
-          <input type="radio"
-            class="sr-only"
-            aria-describedby="tauxIncapaciteQuestion"
-            />
-            J'ai déjà fait une demande 
-        </label>
-        <label class="btn btn-default">
-          <input type="radio"
-            class="sr-only"
-            aria-describedby="tauxIncapaciteQuestion"
-            />
-            Je n'en bénéficie pas actuellement
+            {{alternative.label}}
         </label>
       </div>
     </div>

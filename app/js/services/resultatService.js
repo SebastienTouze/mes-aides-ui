@@ -7,13 +7,14 @@ angular.module('ddsApp').service('ResultatService', function($http, $rootScope) 
 
     var _loading = false;
 
-    function fetch(situation, showPrivate) {
-        return Promise.resolve({
-            droitsEligibles: [{id: 'ppa', montant: 12, label: 'PPA'}],
-            droitsNonEligibles: [],
-            droitsInjectes: [], // declared by the user
+    var cache = {
+        droitsEligibles: [{id: 'ppa', montant: 12, label: 'PPA'}],
+        droitsNonEligibles: [],
+        droitsInjectes: [], // declared by the user
+    };
 
-        })
+    function fetch(situation, showPrivate) {
+        return Promise.resolve(cache)
         return $http.get('api/situations/' + situation._id + '/openfisca-response')
             .then(function(OpenfiscaResponse) {
                 return OpenfiscaResponse.data;
@@ -45,6 +46,7 @@ angular.module('ddsApp').service('ResultatService', function($http, $rootScope) 
         _computeAides: computeAides,  // exposed for testing only
         round: round, // exposed for testing only
         simulate: simulate,
-        isLoading: isLoading
+        isLoading: isLoading,
+        getCache: function() { return cache; },
     };
 });
