@@ -533,4 +533,4 @@ msaAdditionProviders.forEach(function(providerId) {
         prestations[benefitId].msa = true;
     });
 });
-export default droitsDescription;
+module.exports = droitsDescription;
