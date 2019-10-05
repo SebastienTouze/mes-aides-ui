@@ -10,7 +10,7 @@
       <h2><i class="fa fa-warning" aria-hidden="true"></i> Aucun résultat disponible</h2>
       <h3 v-show="warningMessage">{{ warningMessage }}</h3>
       <p>
-        Pour commencer votre simulation, rendez-vous sur la <a ui-sref="home">page d'accueil</a>.
+        Pour commencer votre simulation, rendez-vous sur la <router-link to="home">page d'accueil</router-link>.
       </p>
     </div>
 
@@ -63,7 +63,7 @@
 
       <div class="frame-resultats" v-show="(droits | isEmpty) && ressourcesYearMoins2Captured">
           <h2>Votre simulation n'a pas permis de découvrir de nouveaux droits.</h2>
-          <p>Si vous êtes dans une situation difficile, d'<a ui-sref="sos">autres solutions existent</a>.</p>
+          <p>Si vous êtes dans une situation difficile, d'<router-link to="/sos">autres solutions existent</router-link>.</p>
       </div>
 <!-- 
       <div class="frame-resultats" v-show="ressourcesYearMoins2Captured === false">
@@ -173,7 +173,7 @@
         </div>
 
         <div id="social">
-          <p>Suivez-nous sur <a ui-sref="social">nos réseaux sociaux</a> ! Nos messages privés sont ouverts pour vous permettre de communiquer avec nous en toute discrétion.</p>
+          <p>Suivez-nous sur <router-link to="/social">nos réseaux sociaux</router-link> ! Nos messages privés sont ouverts pour vous permettre de communiquer avec nous en toute discrétion.</p>
 
           <p style="text-align:center;"><a href="https://www.facebook.com/MesAides"><img src="/img/social/picto_facebook.png" alt="Facebook"></a>  <a href="https://twitter.com/MesAides"><img src="/img/social/picto_twitter.png" alt="Twitter"></a></p>
         </div>
