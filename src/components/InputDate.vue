@@ -15,7 +15,7 @@ export default {
   },
   data: function() {
     return {
-      item: this.value.toISOString().slice(0,10)
+      item: this.value && this.value.toISOString().slice(0,10)
     }
   },
   methods: {
