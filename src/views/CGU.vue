@@ -51,9 +51,7 @@
     </p>
     <p>
       Vous avez un droit d'accès, de rectification et de suppression de vos données. Pour l'exercer, <a
-      mail-to="cil@mes-aides.gouv.fr"
-      subject="Mes données"
-      v-bind:body="emailBody"><!-- TODO --> envoyez-nous un courriel</a> en précisant la date et l'heure précise de simulation. Si vous l'avez, merci d'indiquer l'identifiant de la simulation ; sinon, merci de nous fournir le plus possible d'éléments renseignés au cours de votre visite.
+      v-mail="{to: 'cil@mes-aides.gouv.fr', subject: 'Mes données', body: emailBody}">envoyez-nous un courriel</a> en précisant la date et l'heure précise de simulation. Si vous l'avez, merci d'indiquer l'identifiant de la simulation ; sinon, merci de nous fournir le plus possible d'éléments renseignés au cours de votre visite.
       <small>Comme nous n'enregistrons pas d'éléments nominatifs, seuls ces éléments peuvent nous permettre de retrouver votre simulation.</small>
     </p>
     <p>
@@ -137,8 +135,6 @@
   </article>
 </template>
 
-
-
 <script>
 export default {
   name: 'cgu',
@@ -146,7 +142,7 @@ export default {
     return {
       situation: { // TODO
         _id: 'TEST'
-      }
+      },
     }
   },
   computed: {
@@ -169,13 +165,4 @@ Merci d'avance.
     }
   },
 }
-</script>
-
-
-<script type="text/javascript">
-  
-
-  
-
-
 </script>
