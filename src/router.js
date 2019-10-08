@@ -38,6 +38,16 @@ export default new Router({
       component: () => import(/* webpackChunkName: "ameliorer" */ './views/Ameliorer.vue')
     },
     {
+      path: '/communication',
+      name: 'communication',
+      component: () => import(/* webpackChunkName: "communication" */ './views/Communication.vue')
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: () => import(/* webpackChunkName: "contact" */ './views/Contact.vue')
+    },
+    {
       path: '/cgu',
       name: 'cgu',
       component: () => import(/* webpackChunkName: "cgu" */ './views/CGU.vue')
