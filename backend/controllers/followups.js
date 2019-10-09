@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 var mailjet = require('node-mailjet');
 var Followup = require('mongoose').model('Followup');
 
