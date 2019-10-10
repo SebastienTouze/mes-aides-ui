@@ -3,7 +3,7 @@ import moment from 'moment'
 import _ from 'lodash'
 
 import { computeAides } from '../../backend/lib/mes-aides'
-import { categoriesRnc } from '../constants/resources'
+import { categoriesRnc } from '../constants/ressources'
 
 const sampleResponse = require('../../sample-response.json')
 

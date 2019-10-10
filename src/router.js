@@ -26,6 +26,9 @@ export default new Router({
         path: 'enfants',
         component: () => import(/* webpackChunkName: "enfants" */ './views/Foyer/Enfants.vue')
       }, {
+        path: 'ressources',
+        component: () => import(/* webpackChunkName: "enfants" */ './views/Foyer/RessourceTypes.vue')
+      }, {
         path: 'resultat',
         component: () => import(/* webpackChunkName: "resultat" */ './views/Foyer/Resultat.vue')
       }]

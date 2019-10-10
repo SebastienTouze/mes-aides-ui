@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import moment from 'moment'
-import { categoriesRnc, patrimoineTypes } from '../constants/resources'
+import { categoriesRnc, patrimoineTypes } from '../constants/ressources'
 
 const Situation = {
 
