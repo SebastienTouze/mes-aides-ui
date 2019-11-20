@@ -134,6 +134,18 @@ const SituationService = {
             return adaptPersistedSituation(Vue.situation);
         },
 
+        isProprietaireAvecPretEnCours() {
+            var isProprietaire =
+                ['primo_accedant', 'proprietaire'].includes(Vue.situation.menage.statut_occupation_logement);
+
+            return isProprietaire && Vue.situation.menage.loyer > 0;
+        },
+
+        isHebergeParticipeFrais() {
+            return Vue.situation.menage.statut_occupation_logement === 'loge_gratuitement'
+                && Vue.situation.menage.participation_frais === true;
+        },
+
         restoreRemote: function(/*situationId*/) {
             return /*$http.get('/api/situations/' + situationId, {
                 params: { cacheBust: Date.now() }
